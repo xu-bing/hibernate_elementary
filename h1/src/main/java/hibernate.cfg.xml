@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- 1. 配置数据库的连接 -->
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://127.0.0.1:3306/boode</property>
+		<property name="connection.username">root</property>
+		<property name="connection.password">root</property>
+		
+		<!-- 指定数据库方言 -->
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		
+		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+		
+		<!-- 2. 指定POJO类与表映射关系文件（.hbm）的路径 -->
+		<mapping resource="com/entity/Emp.hbm.xml"/>
+	</session-factory>
+</hibernate-configuration>	
+	
