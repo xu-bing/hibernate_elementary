@@ -1,69 +1,128 @@
 package com.dao;
 
+import java.util.List;
+import java.util.Set;
+
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import com.entity.Dept;
 import com.entity.Emp;
+import com.entity.User;
+import com.util.HibernateSessionFactory;
 
-import java.util.List;
-
-/**
- * æµ‹è¯• hibernateçš„åŠ è½½ç­–ç•¥
- *
- * ç«‹å³åŠ è½½
- *
- * å»¶è¿ŸåŠ è½½
- * æ¦‚å¿µè¯´æ˜<ä¸åŒè§’åº¦>
- * è¿”å›çš„å¯¹è±¡æ˜¯ä»£ç†å¯¹è±¡
- * æˆ–ï¼Œ
- * sessionå…³é—­åï¼Œå¦‚åœ¨å…³é—­å‰æ²¡æœ‰åˆå§‹åŒ–ï¼Œåˆ™ä¼šå‡ºç°æ‡’åŠ è½½å¼‚å¸¸ï¼ˆwhy? å¯¹è±¡çš„åˆå§‹åŒ–éœ€è¦sessionè¿æ¥æ“ä½œæ•°æ®åº“ï¼šè·å–å±æ€§å€¼ï¼‰
- *
- */
 public class DeptDao {
-
-    /**
-     * æµ‹è¯•ï¼šloadæ‡’åŠ è½½
-     *
-     * å¯èƒ½çš„åæœï¼šæ‡’åŠ è½½å¼‚å¸¸
-     *
-     * è§£å†³æ–¹æ³•ï¼š
-     * 1) é…ç½®ï¼šload ---> get
-     * 2) sessionå…³é—­å‰ï¼Œè®¿é—®ç›®æ ‡å±æ€§ï¼Œå¯¹ä»£ç†å¯¹è±¡è¿›è¡Œåˆå§‹åŒ–
-     *
-     * ï¼Ÿ å…¶å®ƒæœªè®¿é—®çš„å±æ€§ï¼Œå…¶å€¼æ˜¯å¦ä¼šåˆå§‹åŒ–
-     *
-     */
-    public Dept loadDept(){
-
-    }
-
-
-
-
-    /**
-     * session.get() åŠ è½½ç­–ç•¥
-     *
-     * é»˜è®¤ï¼š
-     * ç±»çº§åˆ«ï¼šç«‹å³åŠ è½½
-     * å…³è”å¯¹è±¡ï¼šå»¶è¿ŸåŠ è½½ï¼Œå³è¿”å›å€¼ä¸ºä»£ç†å¯¹è±¡ï¼Œåªæœ‰OIDåˆå§‹åŒ–äº†ï¼Œå…¶å®ƒä¸ºNullã€‚
-     *
-     * è§£å†³ï¼š
-     * é…ç½®
-     * ä»£ç ä¸­åˆå§‹åŒ–ï¼ˆå—é…ç½®çš„å½±å“ï¼Œå³lazyçš„ç¨‹åº¦ï¼‰
-     */
-    public List<Emp> queryDeptById(){
-
-
-    }
-
-    /**
-     * æµ‹è¯• query.list()
-     *
-     * åœ¨ç±»çº§åˆ«ï¼Œæ€»æ˜¯ç«‹å³åŠ è½½
-     * åœ¨å…³è”çº§åˆ«ï¼Œå»¶è¿ŸåŠ è½½
-     *
-     *
-     * @return
-     */
-    public List<Dept> queryDepts(){
-
-    }
+	
+	/**
+	 * ²âÊÔ£ºÒ»¶Ô¶àµÄÑÓ³Ù¼ÓÔØ
+	 */
+	public void findDeptById(){
+		Session session = HibernateSessionFactory.getSession();
+		
+		Dept d = (Dept) session.get(Dept.class, (byte)10);
+		System.out.println(d.getDname());
+		
+		Set emps = d.getEmps();		// ¹ØÁª²éÑ¯£¬Ä¬ÈÏÎªÑÓ³Ù¼ÓÔØ  <set lazy="true">
+		System.out.println(emps);
+		
+		session.close();
+	}	// findDeptById
+	
+	
+	/**
+	 * ²âÊÔ£º¶à¶ÔÒ»µÄÑÓ³Ù¼ÓÔØ
+	 */
+	public void findEmpById(){
+		Session session = HibernateSessionFactory.getSession();
+		
+		Emp emp = (Emp) session.get(Emp.class, 7369);
+		System.out.println(emp.getEname());
+		
+		Dept d = emp.getDept();	// ¹ØÁª²éÑ¯£¬Ä¬ÈÏÎªÑÓ³Ù¼ÓÔØ  <many-to-one lazy="proxy"> 
+		System.out.println(d.getDname());
+		
+		session.close();
+	}	// findEmpById
+	
+	/**
+	 * ²âÊÔÀÁ¼ÓÔØÒì³£1
+	 */
+	public void loadEmpById(){
+		Session session = HibernateSessionFactory.getSession();
+		
+//		Emp emp = (Emp) session.get(Emp.class, 7369);
+		Emp emp = (Emp) session.load(Emp.class, 7369);
+		
+		emp.getHiredate();
+		
+		session.close();
+		System.out.println(emp.getEname());	
+		// => org.hibernate.LazyInitializationException: 
+		// could not initialize proxy - no Session
+	}	// loadEmpById
+	
+	/**
+	 * ²âÊÔÀÁ¼ÓÔØÒì³£2
+	 */
+	public Set queryDept(){
+		Session session = HibernateSessionFactory.getSession();
+		
+		Dept d = (Dept) session.get(Dept.class, (byte)10);
+		System.out.println(d.getDname());
+		
+		Set emps = d.getEmps();		// ÑÓ³Ù¼ÓÔØ, ´úÀí¶ÔÏó 
+		
+		//emps.size();	// Õë¶Ôextra: ÎŞĞ§
+		//System.out.println(emps);
+		//for (Object o : emps){
+			
+	    //}
+		emps.iterator();
+		
+		// ´úÀí¶ÔÏóµÄ³õÊ¼»¯
+		if (!Hibernate.isInitialized(emps)){
+			Hibernate.initialize(emps);
+		}
+		
+		session.close();
+		
+		return emps;
+	}	// queryDept
+	
+	/**
+	 * ²âÊÔ£ºquery.list() ¼ÓÔØ²ßÂÔ
+	 * @return
+	 */
+	public List<Dept> queryAllDepts(){
+		Session session = HibernateSessionFactory.getSession();
+		
+		String hql = "FROM Dept";
+		
+		Query query = session.createQuery(hql);
+		
+		List<Dept> deptList = query.list();		// query.list()×ÜÊÇÁ¢¼´¼ÓÔØ£¬µ«¹ØÁª¶ÔÏóÄ¬ÈÏÈÔÎªÑÓ³Ù¼ÓÔØ¡£
+	
+		session.close();
+		
+		return deptList;
+	}	// queryAllDepts
+	
+		
+	public static void main(String[] args) {
+		DeptDao deptDao = new DeptDao();
+//		deptDao.findDeptById();
+//		deptDao.findEmpById();
+//		deptDao.loadEmpById();
+		
+		// ²âÊÔ£º¹ØÁª¼¶±ğµÄÀÁ¼ÓÔØÒì³£
+//		Set empSet = deptDao.queryDept();
+//		System.out.println(empSet.size()); //setµÄlazy="extra"¶ÔËü²»Æğ×÷ÓÃ£¬²»»á³öÏÖÀÁ¼ÓÔØÒì³£
+//		System.out.println(empSet);
+		
+		// ²âÊÔ£ºquery.list()µÄ¹ØÁª²éÑ¯
+		List deptList = deptDao.queryAllDepts();
+		System.out.println(deptList);	//´Ë´òÓ¡²»»á¹ØÁª²éÑ¯¡£½«<set> lazy=falseÊ±¾ÍÖ´ĞĞ¹ØÁª¼¶±ğµÄ¼ÓÔØ¡£
+	}
 }

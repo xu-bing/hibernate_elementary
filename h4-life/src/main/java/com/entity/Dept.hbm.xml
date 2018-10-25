@@ -1,18 +1,24 @@
-<?xml version='1.0' encoding='utf-8'?>
-<!DOCTYPE hibernate-mapping PUBLIC
-    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-5-17 10:55:09 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-
-    <class name="com.entity.Dept" table="dept" schema="boode">
-        <id name="deptno">
-            <column name="deptno" sql-type="int(10)"/>
+    <class name="com.entity.Dept" table="dept" catalog="boode">
+        <id name="deptno" type="java.lang.Byte">
+            <column name="deptno" />
+            <generator class="identity" />
         </id>
-        <property name="dname">
-            <column name="dname" sql-type="varchar(14)" length="14" not-null="true"/>
+        <property name="dname" type="string">
+            <column name="dname" length="14" />
         </property>
-        <property name="loc">
-            <column name="loc" sql-type="varchar(13)" length="13" not-null="true"/>
+        <property name="loc" type="string">
+            <column name="loc" length="13" />
         </property>
+        <set name="emps" table="emp" lazy="false" batch-size="3">
+            <key>
+                <column name="deptno" />
+            </key>
+            <one-to-many class="com.entity.Emp" />
+        </set>
     </class>
 </hibernate-mapping>

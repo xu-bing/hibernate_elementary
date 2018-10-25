@@ -1,32 +1,36 @@
 package com.dao;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import com.entity.Emp;
+
 public class EmpDao {
-    public void queryEmpById(){
-        /**
-         * æ ¹æ®ä¸»é”®æŸ¥è¯¢å‘˜å·¥
-         */
-        public void queryEmpById(){
-            // 1. å®ä¾‹åŒ–Configurationå¯¹è±¡, å¹¶è°ƒç”¨configureæ–¹æ³•æ¥åŠ è½½hibernate.cfg.xmlæ–‡ä»¶
-            Configuration cfg = new Configuration().configure();
-
-            // 2. é€šè¿‡cfgï¼Œåˆ›å»ºsessionFactory
-            SessionFactory sessionFactory = cfg.buildSessionFactory();
-
-            // 3. é€šè¿‡sessionFactoryï¼Œæ‰“å¼€ä¼šè¯
-            Session session = sessionFactory.openSession();
-
-            // 4. è°ƒç”¨sessionçš„getæ–¹æ³•æ¥æŸ¥è¯¢å‘˜å·¥
-            Emp emp = (Emp) session.get(Emp.class, 7369);
-            System.out.println(emp.getEname());
-
-            // 5. å…³é—­èµ„æº
-            session.close();
-
-        }	// queryEmpById
-
-        public static void main(String[] args) {
-            EmpDao e = new EmpDao();
-            e.queryEmpById();
-        }	// main
-
+	/**
+	 * ¸ù¾İÖ÷¼ü²éÑ¯Ô±¹¤
+	 */
+	public void queryEmpById(){
+		// 1. ÊµÀı»¯Configuration¶ÔÏó£¬²¢µ÷ÓÃconfigure·½·¨À´¼ÓÔØhibernate.cfg.xmlÎÄ¼ş
+		Configuration cfg = new Configuration().configure();
+		
+		// 2. ´´½¨SessionFactory
+		SessionFactory sessionFactory = cfg.buildSessionFactory();
+		
+		// 3. ´ò¿ª»á»°Session
+		Session session = sessionFactory.openSession();
+		
+		// 4. µ÷ÓÃsessionÖĞµÄ·½·¨½øĞĞCRUD²Ù×÷
+		Emp emp = (Emp) session.get(Emp.class, 7369);
+		System.out.println(emp.getEname());
+		
+		// 5. ¹Ø±Õ×ÊÔ´
+		session.close();
+		
+	}
+	
+	public static void main(String[] args) {
+		EmpDao e = new EmpDao();
+		e.queryEmpById();
+	}
 }
