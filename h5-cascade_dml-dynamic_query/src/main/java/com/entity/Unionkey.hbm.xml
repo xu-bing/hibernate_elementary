@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-5-18 10:51:23 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.entity.Unionkey" table="unionkey" catalog="boode">
+        <!-- 联合主键 -->
+        <composite-id name="key" class="com.entity.Key">      
+          	<!-- 指定联合主键中的属性与字段的对应关系 -->           
+            <key-property name="id" column="id"></key-property>
+            <key-property name="name" column="name"></key-property>
+        </composite-id>
+        
+        <!-- 其它属性 -->
+        <property name="sex" column="sex">
+        </property>
+    </class>
+</hibernate-mapping>
