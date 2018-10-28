@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-5-15 13:42:32 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.entity.Emp" table="emp" catalog="boode" select-before-update="false">
+        <id name="empno" type="java.lang.Integer">
+            <column name="empno" />
+            <generator class="increment" />
+        </id>
+        <property name="ename" type="string">
+            <column name="ename" length="10" />
+        </property>
+        <property name="job" type="string">
+            <column name="job" length="9" />
+        </property>
+        <property name="mrg" type="java.lang.Integer">
+            <column name="mrg" />
+        </property>
+        <property name="hiredate" type="date">
+            <column name="hiredate" length="10" />
+        </property>
+        <property name="sal" type="java.lang.Double">
+            <column name="sal" precision="7" />
+        </property>
+        <property name="comm" type="java.lang.Double">
+            <column name="comm" precision="7" />
+        </property>
+        <property name="deptno" type="java.lang.Byte">
+            <column name="deptno" />
+        </property>
+    </class>
+</hibernate-mapping>

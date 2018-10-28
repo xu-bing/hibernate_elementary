@@ -48,13 +48,16 @@ public class DeptDao {
 	
 	/**
 	 * 测试懒加载异常1
+	 * 表现：
+	 * 原因：
+	 * 解决：
 	 */
 	public void loadEmpById(){
 		Session session = HibernateSessionFactory.getSession();
 		
-//		Emp emp = (Emp) session.get(Emp.class, 7369);
 		Emp emp = (Emp) session.load(Emp.class, 7369);
-		
+
+//		Emp emp = (Emp) session.get(Emp.class, 7369);   //
 		emp.getHiredate();
 		
 		session.close();
@@ -64,7 +67,8 @@ public class DeptDao {
 	}	// loadEmpById
 	
 	/**
-	 * 测试懒加载异常2
+	 * 测试懒加载异常2：关联对象
+	 *
 	 */
 	public Set queryDept(){
 		Session session = HibernateSessionFactory.getSession();
@@ -72,12 +76,11 @@ public class DeptDao {
 		Dept d = (Dept) session.get(Dept.class, (byte)10);
 		System.out.println(d.getDname());
 		
-		Set emps = d.getEmps();		// 延迟加载, 代理对象 
+		Set emps = d.getEmps();		// 延迟加载, 代理对象
 		
 		//emps.size();	// 针对extra: 无效
 		//System.out.println(emps);
 		//for (Object o : emps){
-			
 	    //}
 		emps.iterator();
 		
@@ -126,3 +129,5 @@ public class DeptDao {
 		System.out.println(deptList);	//此打印不会关联查询。将<set> lazy=false时就执行关联级别的加载。
 	}
 }
+
+// https://blog.csdn.net/lovesummerforever/article/details/51768361

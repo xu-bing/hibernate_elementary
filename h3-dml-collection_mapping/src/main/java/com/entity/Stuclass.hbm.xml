@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-5-15 15:31:35 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.entity.Stuclass" table="stuclass" catalog="boode">
+        <id name="cid" type="java.lang.Integer">
+            <column name="cid" />
+            <generator class="identity" />
+        </id>
+        <property name="cname" type="string">
+            <column name="cname" length="20" />
+        </property>
+       
+       	<!-- 映射班级下的所有学生 -->
+       	<!-- set -->
+       	<set name="studentSet">
+       		<!-- 指定外键 -->
+       		<key>
+       			<column name="cid"></column>
+       		</key>
+       		
+       		<!-- 指定集合中元素的类型 -->
+       		<one-to-many class="com.entity.Student"/>
+       	</set>
+       	
+       	<!-- list -->
+       	<!-- 映射到list中 -->
+       	<list name="studentList">
+       		<!-- 指定外键 -->
+       		<key>
+       			<column name="cid"></column>
+       		</key>
+       		
+       		<!-- 指定数据库表中的某列作为 list的下标 -->
+       		<index column="sid">			
+       		</index>
+       		
+       		<one-to-many class="com.entity.Student"/>
+       	</list>
+       	
+       	<!-- 映射到map中 -->
+       	<map name="studentMap">
+       		<!-- 指定外键 -->
+       		<key>
+       			<column name="cid"></column>
+       		</key>
+       		<!-- 指定数据库表中的某列作为 map的键, 必须指定type-->
+       		<index column="sid" type="int"></index>
+       		<one-to-many class="com.entity.Student"/>
+       	</map>
+       	
+       	<!-- 映射到bag -->
+       	<bag name="studentBag">
+       		<!-- 指定外键 -->
+       		<key>
+       			<column name="cid"></column>
+       		</key>
+       		
+       		<one-to-many class="com.entity.Student"/>
+       	</bag>
+    </class>
+</hibernate-mapping>
